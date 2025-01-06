@@ -70,7 +70,7 @@ Playlist addSong(Playlist playlist, char* songTitle, char* songArtist, char* son
     //update song details
     playlist.songs[newSize - 1].title = strdup(songTitle);
     playlist.songs[newSize - 1].artist = strdup(songArtist);
-    playlist.songs[newSize - 1].lyrics = songLyrics;
+    playlist.songs[newSize - 1].lyrics = strdup(songLyrics);
     playlist.songs[newSize - 1].year = songYear;
     playlist.songs[newSize - 1].streams = 0;
     playlist.songsNum++;
