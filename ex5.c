@@ -84,9 +84,9 @@ void deleteSong() {
 }
 
 
-
-void playSong() {
-    
+//plays a given song
+void playSong(Song songToPlay) {
+    printf("Now playing %s:\n%s\n", songToPlay.title, songToPlay.lyrics);
 }
 
 
@@ -215,13 +215,19 @@ int main() {
                                     int songToPlay = -1;
 
                                     //get a song to play
-                                    printf("choose a song to play, or 0 to quit:\n");
                                     printSongsList(account[playlistMenuChoice - 1]);
-
+                                    printf("choose a song to play, or 0 to quit:\n");
                                     scanf("%d", &songToPlay);
 
-                                    //check if in range, otherwise go back
-                                    
+                                    //check if in range, if so play the playlist by its order starting at that song
+                                    if(songToPlay > 0 && songToPlay <= account[playlistMenuChoice - 1].songsNum) {
+                                        for(int i = 0; i <= account[playlistMenuChoice - 1].songsNum - songToPlay; i++)
+                                        {
+                                            //play song and increase its streams count by 1
+                                            playSong(account[playlistMenuChoice - 1].songs[songToPlay - 1 + i]);
+                                            account[playlistMenuChoice - 1].songs[songToPlay - 1 + i].streams++;
+                                        }
+                                    }
 
                                     break;
                                 }
@@ -247,8 +253,12 @@ int main() {
                                     songLyrics = getStringInput();
 
                                     //add the song to the playlist
-                                    account[playlistMenuChoice - 1] = addSong(account[playlistMenuChoice - 1], songTitle, songArtist, songLyrics,
-                                            yearOfRelease);
+                                    account[playlistMenuChoice - 1] = addSong(account[playlistMenuChoice - 1],
+                                                                              songTitle,
+                                                                              songArtist,
+                                                                              songLyrics,
+                                                                              yearOfRelease);
+
 
                                     //free the placeholders from the memory
                                     free(songTitle);
